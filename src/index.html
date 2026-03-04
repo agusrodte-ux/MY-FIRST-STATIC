@@ -1,17 +1,142 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Galería de gatitos adorables: conoce, busca y adopta a tu próximo compañero peludo.">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <title>Vanilla JavaScript App</title>
+  <title>Gatitos Adorables</title>
 </head>
 
 <body>
-  <main>
-    <h1>Vanilla JavaScript App</h1>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div>
+        <h1>Gatitos Adorables</h1>
+        <p class="tagline">Galería para alegrar tu día — encuentra tu nuevo amigo peludo</p>
+      </div>
+      <nav aria-label="principal">
+        <a href="#gallery" class="nav-link">Galería</a>
+        <a href="#about" class="nav-link">Sobre</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="controls" aria-hidden="false">
+      <input id="search" type="search" placeholder="Buscar gatito por nombre..." aria-label="Buscar gatito">
+      <select id="filter-age" aria-label="Filtrar por edad">
+        <option value="all">Todas las edades</option>
+        <option value="baby">Cachorros</option>
+        <option value="adult">Adultos</option>
+      </select>
+    </section>
+
+    <section id="gallery" class="gallery" aria-live="polite">
+      <article class="card" data-name="Luna" data-age="baby">
+        <img src="https://placekitten.com/640/480" alt="Luna, gatito gris mirando a la cámara">
+        <div class="card-body">
+          <h3>Luna</h3>
+          <p class="meta">2 meses • Juguetona</p>
+          <p>Le encanta perseguir hilos y dormir en cajas pequeñas.</p>
+          <button class="btn adopt">Adoptar</button>
+        </div>
+      </article>
+
+      <article class="card" data-name="Simba" data-age="adult">
+        <img src="https://placekitten.com/600/400" alt="Simba, gatito naranja estirado">
+        <div class="card-body">
+          <h3>Simba</h3>
+          <p class="meta">3 años • Calmado</p>
+          <p>Perfecto para un hogar tranquilo y con mucho cariño.</p>
+          <button class="btn adopt">Adoptar</button>
+        </div>
+      </article>
+
+      <article class="card" data-name="Mila" data-age="baby">
+        <img src="https://placekitten.com/620/420" alt="Mila, pequeña gatita blanca y gris jugando">
+        <div class="card-body">
+          <h3>Mila</h3>
+          <p class="meta">3 meses • Curiosa</p>
+          <p>Siempre investigando, ideal para quien quiera jugar mucho.</p>
+          <button class="btn adopt">Adoptar</button>
+        </div>
+      </article>
+
+      <article class="card" data-name="Nube" data-age="adult">
+        <img src="https://placekitten.com/580/380" alt="Nube, gato blanco y esponjoso mirando hacia arriba">
+        <div class="card-body">
+          <h3>Nube</h3>
+          <p class="meta">4 años • Mimoso</p>
+          <p>Le encanta acurrucarse en el sofá y recibir caricias.</p>
+          <button class="btn adopt">Adoptar</button>
+        </div>
+      </article>
+
+      <article class="card" data-name="Oreo" data-age="baby">
+        <img src="https://placekitten.com/560/360" alt="Oreo, gatito de colores blanco y negro sentado">
+        <div class="card-body">
+          <h3>Oreo</h3>
+          <p class="meta">1 mes • Travieso</p>
+          <p>Pequeño explorador que trae energía y alegría.</p>
+          <button class="btn adopt">Adoptar</button>
+        </div>
+      </article>
+
+      <article class="card" data-name="Coco" data-age="adult">
+        <img src="https://placekitten.com/540/360" alt="Coco, gato atigrado tranquilo">
+        <div class="card-body">
+          <h3>Coco</h3>
+          <p class="meta">2 años • Amigable</p>
+          <p>Se lleva bien con otros animales y niños.</p>
+          <button class="btn adopt">Adoptar</button>
+        </div>
+      </article>
+    </section>
+
+    <section id="about" class="about">
+      <h2>Sobre esta galería</h2>
+      <p>Esta es una demostración de una interfaz amigable para mostrar gatitos. Las imágenes son de ejemplo — para adoptar, contacta a una organización local.</p>
+    </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>Hecho con cariño • Galería de demostración</small>
+    </div>
+  </footer>
+
+  <script>
+    // Búsqueda, filtro y manejo de botón Adoptar
+    const search = document.getElementById('search');
+    const filter = document.getElementById('filter-age');
+    const cards = Array.from(document.querySelectorAll('.card'));
+
+    function updateGallery() {
+      const q = search.value.trim().toLowerCase();
+      const age = filter.value;
+      cards.forEach(card => {
+        const name = card.dataset.name.toLowerCase();
+        const a = card.dataset.age;
+        const matchesQuery = name.includes(q) || q === '';
+        const matchesAge = (age === 'all') || (age === a);
+        card.style.display = (matchesQuery && matchesAge) ? '' : 'none';
+      });
+    }
+
+    search.addEventListener('input', updateGallery);
+    filter.addEventListener('change', updateGallery);
+
+    document.querySelectorAll('.btn.adopt').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const card = e.target.closest('.card');
+        const name = card.dataset.name;
+        alert(`Gracias por interesarte en ${name}! Para adoptar, contacta a la organización local.`);
+      });
+    });
+  </script>
 </body>
 
 </html>
